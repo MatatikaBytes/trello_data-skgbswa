@@ -5,6 +5,10 @@ plugins:
   extractors:
   - name: tap-trello
     pip_url: tap-trello
+  loaders:
+  - name: target-postgres
+    variant: meltano
+    pip_url: git+https://github.com/meltano/target-postgres.git
   transforms:
   - name: dbt-tap-trello
     pip_url: git+https://github.com/mike-aboagye/dbt-tap-trello
