@@ -1,0 +1,554 @@
+version: 19
+extractors:
+- name: tap-matatika-sit
+  namespace: tap_matatika_sit
+  hidden: false
+  label: Matatika SIT
+  description: Test extractor based on tap-spreadsheets-anywhere used during Matatika
+    SIT runs
+  image_url: /assets/images/datasource/tap-matatika-sit.svg
+  docs: https://meltano.com/plugins/extractors/spreadsheets-anywhere.html
+  repo: https://github.com/ets/tap-spreadsheets-anywhere
+  pip_url: git+https://github.com/ets/tap-spreadsheets-anywhere.git
+  executable: tap-spreadsheets-anywhere
+  capabilities:
+  - state
+  - catalog
+  - discover
+  settings:
+  - name: tables
+    kind: array
+    value: '[{"path":"https://raw.githubusercontent.com/Matatika/matatika-examples/master/example_data","name":"gitflixusers","pattern":"GitFlixUsers.csv","start_date":"2021-01-01T00:00:00Z","key_properties":["id"],"format":"csv"}]'
+    label: Tables
+    description: An array holding json objects that each describe a set of targeted
+      source files. See docs for details.
+    protected: false
+- name: tap-googleads
+  namespace: tap_googleads
+  hidden: false
+  label: Google Ads
+  description: "App and website ads platform hosted by Google.\n\n## Prerequisites\n\
+    \n[Google Ads Prerequisites](https://www.matatika.com/docs/data-sources/tap-googleads/prerequisites)\n\
+    \n## Data source settings\n\n### Customer Id\n\nCustomer Id is the account id\
+    \ of your Google Ads account with the ads campaigns, and therefore data, that\
+    \ will get synced.\n\nYour Customer Id is usually in the format '111-111-1111'\
+    \ but to make requests to the api we have to remove the dashes.\n\n### Start Date\n\
+    \nProviding a start date allows you to set how much historical data you wish to\
+    \ import into you workspace. \n\nIf you do not provide a start date the tap will\
+    \ set a date of one year ago.\n\nThis date has to be in the ISO-8601 date format,\
+    \ see the example below.\n\nFormat: `YYYY-MM-DDTHH:MM:SSZ`\n\nExample: `2020-10-01T13:12:11Z`\n\
+    \n### End Date\n\nProviding a end date allows you to set how much historical data\
+    \ you wish to import into you workspace. \n\nIf you do not provide a end date\
+    \ the tap will sync all data up to the current date.\n\nThis date has to be in\
+    \ the ISO-8601 date format, see the example below.\n\nFormat: `YYYY-MM-DDTHH:MM:SSZ`\n\
+    \nExample: `2020-10-01T13:12:11Z`\n\n## Learn more\n\nLearn more about the Google\
+    \ Ads data source\n\n[Google Ads Extractor Documentation](https://github.com/Matatika/tap-googleads/blob/main/README.md)"
+  image_url: /assets/images/datasource/tap-googleads.svg
+  docs: https://www.matatika.com/docs/data-sources/tap-googleads/
+  repo: https://github.com/Matatika/tap-googleads
+  pip_url: git+https://github.com/Matatika/tap-googleads@v0.1.1
+  capabilities:
+  - state
+  - catalog
+  - discover
+  settings:
+  - name: oauth_credentials.access_token
+    kind: hidden
+    label: Access Token
+    protected: false
+  - name: end_date
+    kind: date_iso8601
+    label: End Date
+    protected: false
+    required: 'false'
+  - name: developer_token
+    kind: hidden
+    value: DYSuW0qdfU5-jti8Zdh1HQ
+    label: Developer Token
+    protected: false
+  - name: oauth_credentials.refresh_proxy_url
+    env_aliases:
+    - OAUTH_REFRESH_PROXY_URL
+    kind: hidden
+    label: Will be called with 'oauth_credentials.refresh_token' to refresh the access
+      token
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.refresh_token
+    kind: hidden
+    label: OAuth Refresh Token
+    protected: false
+  - name: oauth_credentials.refresh_proxy_url_auth
+    env_aliases:
+    - OAUTH_REFRESH_PROXY_URL_AUTH
+    kind: hidden
+    label: Sets Authorization header on 'oauth_credentials.refresh_url' request
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.scope
+    kind: hidden
+    value: https://www.googleapis.com/auth/adwords
+    label: OAuth scopes we need to request access to
+    protected: false
+  - name: customer_id
+    kind: string
+    label: Customer Id
+    protected: false
+  - name: oauth_credentials.authorization_url
+    kind: hidden
+    value: https://oauth2.googleapis.com/token
+    label: OAuth identity provider authorization endpoint used create and refresh
+      tokens
+    protected: false
+  - name: oauth_credentials.client_id
+    kind: hidden
+    label: OAuth Client ID
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.client_secret
+    kind: hidden
+    label: OAuth Client Secret
+    protected: false
+    required: 'false'
+  - name: start_date
+    kind: date_iso8601
+    label: Start Date
+    protected: false
+    required: 'false'
+- name: tap-trello
+  namespace: tap_trello
+  hidden: false
+  label: Tap Trello
+  repo: https://github.com/singer-io/tap-trello
+  pip_url: tap-trello
+  capabilities:
+  - state
+  - catalog
+  - discover
+  settings:
+  - name: consumer_key
+    kind: password
+    label: Consumer Key
+    description: Your Trello Consumer Key
+    protected: false
+  - name: access_token
+    kind: password
+    label: Access Token
+    description: Your Trello Access Token
+    protected: false
+  - name: consumer_secret
+    kind: password
+    label: Consumer Secret
+    description: Your Trello Consumer Secret
+    protected: false
+  - name: access_token_secret
+    kind: password
+    label: Access Token
+    description: Your Trello Access Token Secret
+    protected: false
+  - name: start_date
+    kind: date_iso8601
+    label: Start Date
+    description: Determines how much historical data will be extracted.
+    protected: false
+- name: tap-solarvista
+  namespace: tap_solarvista
+  hidden: false
+  label: Solarvista Live
+  description: "Solarvista Live is a Field Service Management platform to manage,\
+    \ plan, and mobilise your engineers. \n\nThe Matatika Solarvista Live import will\
+    \ extract Solarvista data into your Matatika data store, giving you instant insights\
+    \ into revenue, projects, work items, and engineer performance.\n\n## Prerequisites\n\
+    \nBefore importing data from Solarvista Live you will need to have performed the\
+    \ initial setup in Solarvista.\n\n[Solarvista Live Prerequisites](https://www.matatika.com/docs/data-sources/tap-solarvista/prerequisites)\n\
+    \n\n## Data source settings\n\n### Account\n\nSolarvista API `account`\n\nTo get\
+    \ your `account` id you will need to follow the steps that are linked in our [Prerequisites](https://www.matatika.com/docs/data-sources/tap-solarvista/prerequisites)\
+    \ section.\n\n### ClientId\n\nSolarvista API `clientId`\n  \nTo get your `clientId`\
+    \ you will need to follow the steps that are linked in our [Prerequisites](https://www.matatika.com/docs/data-sources/tap-solarvista/prerequisites)\
+    \ section.\n  \n### Code\n  \nSolarvista API `code`\n  \nTo get your `code` you\
+    \ will need to follow the steps that are linked in our [Prerequisites](https://www.matatika.com/docs/data-sources/tap-solarvista/prerequisites)\
+    \ section.\n  \n### Datasources\n  \nLeave this field blank to accept the default\
+    \ Solarvista datasources or customise the type of data to sync, we support:\n\
+    - `customer`\n- `site`\n- `equipment`\n- `work-item`\n- `work-item-history`\n\
+    - `activity`\n- `users`\n- `territory`\n- `project`\n- `appointment`\n- `skill`\n\
+    \  \n  \n### Start Date\n  \nProviding a start date allows you to set how much\
+    \ historical data you wish to import into your workspace. \n  \nThis date has\
+    \ to be in the ISO-8601 date format, see the example below.\n  \nFormat: `YYYY-MM-DDTHH:MM:SSZ`\n\
+    Example: `2020-10-01T13:12:11Z`\n\n\n## Learn more\n\nLearn more about the Solarvista\
+    \ Live data source\n\n[Solavista Live Extractor Documentation](https://www.matatika.com/docs/data-sources/tap-solarvista)"
+  image_url: /assets/images/datasource/tap-solarvista.png
+  variant: matatika
+  docs: https://www.matatika.com/docs/data-sources/tap-solarvista/
+  repo: https://github.com/Matatika/tap-solarvista
+  pip_url: git+https://github.com/Matatika/tap-solarvista@v0.1.0
+  capabilities:
+  - state
+  settings:
+  - name: clientId
+    kind: string
+    label: Client ID
+    protected: false
+  - name: code
+    kind: password
+    label: Code
+    protected: false
+  - name: datasources
+    kind: string
+    label: Datasources
+    protected: false
+  - name: account
+    kind: string
+    label: Account
+    protected: false
+  - name: start_date
+    kind: date_iso8601
+    label: Start Date
+    protected: false
+- name: tap-spreadsheets-anywhere
+  namespace: tap_spreadsheets_anywhere
+  hidden: false
+  label: Spreadsheets Anywhere
+  description: "Spreadsheets anywhere allows you to read data from spreadsheets (CSVs,\
+    \ Excel, JSON) from cloud or local storage.\n\n## Data source settings\n\n###\
+    \ Files\n\nFiles takes JSON objects inside an Array to describe one or more target\
+    \ files.\n\nExample\n\n```json\n[{\n  \"path\":\"https://meltano.com/files\",\n\
+    \  \"name\":\"gitflixusers\",\n  \"pattern\":\"GitFlixUsers.csv\",\n  \"start_date\"\
+    :\"2021-01-01T00:00:00Z\",\n  \"key_properties\":[\"id\"],\n  \"format\":\"csv\"\
+    \n}]\n```\n\nNote no trailing `/` on the path, or prefixed `/` on the pattern.\
+    \ \n\nSpreadsheets Anywhere will build the URL back up correctly, so in this case\
+    \ it will look for a file at `https://meltano.com/files/GitFlixUsers.csv`\n\n\
+    Passing the above array containing JSON to our files field will sync the data\
+    \ of the file `GitFlixUsers.csv` into your datastore under the table name `gitflixusers`.\n\
+    \n## Learn more\n\nThese documentation links contain an overview of how Spreadsheets\
+    \ Anywhere works, its settings, capabilities, a list of all supported formats\
+    \ and some more examples.\n\n[Spreadsheets Anywhere GitHub Documentation](https://github.com/ets/tap-spreadsheets-anywhere/blob/master/README.md)\n\
+    \n[Spreadsheets Anywhere - Meltano Hub Documentation](https://hub.meltano.com/extractors/spreadsheets-anywhere)"
+  image_url: /assets/images/datasource/tap-spreadsheets-anywhere.png
+  docs: https://meltano.com/plugins/extractors/spreadsheets-anywhere.html
+  repo: https://github.com/ets/tap-spreadsheets-anywhere
+  pip_url: git+https://github.com/ets/tap-spreadsheets-anywhere.git
+  capabilities:
+  - state
+  - catalog
+  - discover
+  settings:
+  - name: tables
+    kind: array
+    label: Tables
+    description: An array holding json objects that each describe a set of targeted
+      source files. See docs for details.
+    protected: false
+- name: tap-google-analytics
+  namespace: tap_google_analytics
+  hidden: false
+  label: Google Analytics
+  description: "App and website analytics platform hosted by Google\n\n## Prerequisites\n\
+    \nBefore importing data from Google Analytics you or your webmaster will need\
+    \ to have performed some initial setup to grant\nyourself access to the Google\
+    \ Analytics for your website.\n\n[Google Analytics Prerequisites](https://www.matatika.com/docs/data-sources/tap-google-analytics/prerequisites)\n\
+    \n## Data source settings\n\n### View ID\n\nOnce you have connected with your\
+    \ google account, the `View ID` drop down will allow you to choose which view\
+    \ you want to get your data from.\n\n### Start Date\n\nProviding a start date\
+    \ allows you to set how much historical data you wish to import into you workspace.\
+    \ \n\nThis date has to be in the ISO-8601 date format, see the example below.\n\
+    \nFormat: `YYYY-MM-DDTHH:MM:SSZ`\n\nExample: `2020-10-01T13:12:11Z`\n\n### End\
+    \ Date\n\nProviding an end date allows you to limit how much data you wish to\
+    \ import into you workspace. \n\nThis date has to be in the ISO-8601 date format,\
+    \ see the example below.\n\nFormat: `YYYY-MM-DDTHH:MM:SSZ`\n\nExample: `2020-10-01T13:12:11Z`\n\
+    \n### Reports\n\nProviding the path to a reports json file allows you to supply\
+    \ the tap with a user defined definition of tables and information you want to\
+    \ sync from Google Analytics.\n\nThis does require you to commit a file to your\
+    \ workspace repository so that Google Analytics can find it during run time, and\
+    \ may also break the dbt transforms that are required to have our included datasets\
+    \ work.\n\nFor more information on how to define a custom reports file see the\
+    \ [Meltano Hub Documentation](https://hub.meltano.com/extractors/google-analytics#reports).\n\
+    \n## Learn more\n\nLearn more about the Google Analytics data source\n\n[Google\
+    \ Analytics Extractor Documentation](https://hub.meltano.com/extractors/google-analytics)\n\
+    \      "
+  image_url: /assets/images/datasource/tap-google-analytics.svg
+  variant: meltano
+  docs: https://www.matatika.com/docs/data-sources/tap-google-analytics/
+  repo: https://github.com/Matatika/tap-google-analytics
+  pip_url: git+https://github.com/Matatika/tap-google-analytics.git
+  capabilities:
+  - state
+  - catalog
+  - discover
+  settings:
+  - name: oauth_credentials.access_token
+    kind: hidden
+    label: Access Token
+    protected: false
+  - name: end_date
+    env_aliases:
+    - GOOGLE_ANALYTICS_API_END_DATE
+    kind: date_iso8601
+    label: End_date
+    protected: false
+    required: 'false'
+  - name: reports
+    env_aliases:
+    - GOOGLE_ANALYTICS_API_REPORTS
+    kind: string
+    label: Reports
+    placeholder: Ex. my_report_definition.json
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.refresh_proxy_url
+    env_aliases:
+    - OAUTH_REFRESH_PROXY_URL
+    kind: hidden
+    label: Optional - will be called with 'oauth_credentials.refresh_token' to refresh
+      the access token
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.refresh_token
+    kind: hidden
+    label: OAuth Refresh Token
+    protected: false
+  - name: view_id
+    env_aliases:
+    - GOOGLE_ANALYTICS_API_VIEW_ID
+    kind: string
+    label: View ID
+    placeholder: Ex. 198343027
+    protected: false
+  - name: oauth_credentials.refresh_proxy_url_auth
+    env_aliases:
+    - OAUTH_REFRESH_PROXY_URL_AUTH
+    kind: hidden
+    label: Optional - Sets Authorization header on 'oauth_credentials.refresh_url'
+      request
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.scope
+    kind: hidden
+    value: profile email https://www.googleapis.com/auth/analytics.readonly
+    label: OAuth scopes we need to request access to
+    protected: false
+  - name: oauth_credentials.authorization_url
+    kind: hidden
+    value: https://oauth2.googleapis.com/token
+    label: OAuth identity provider authorization endpoint used create and refresh
+      tokens
+    protected: false
+  - name: oauth_credentials.client_id
+    kind: hidden
+    label: Optional - OAuth Client ID used if refresh_proxy_url not supplied
+    protected: false
+    required: 'false'
+  - name: oauth_credentials.client_secret
+    kind: hidden
+    label: Optional - OAuth Client Secret used if refresh_proxy_url not supplied
+    protected: false
+    required: 'false'
+  - name: start_date
+    env_aliases:
+    - GOOGLE_ANALYTICS_API_START_DATE
+    kind: date_iso8601
+    label: Start_date
+    protected: false
+loaders:
+- name: target-postgres
+  namespace: postgres
+  hidden: false
+  label: PostgreSQL
+  description: PostgreSQL database loader
+  variant: meltano
+  docs: https://meltano.com/plugins/loaders/postgres.html
+  repo: https://github.com/meltano/target-postgres
+  pip_url: git+https://github.com/meltano/target-postgres.git
+  settings:
+  - name: user
+    aliases:
+    - username
+    env_aliases:
+    - PG_USERNAME
+    - POSTGRES_USER
+    kind: string
+    value: warehouse
+    label: User
+    protected: false
+  - name: password
+    env_aliases:
+    - PG_PASSWORD
+    - POSTGRES_PASSWORD
+    kind: password
+    value: warehouse
+    label: Password
+    protected: false
+  - name: host
+    aliases:
+    - address
+    env_aliases:
+    - PG_ADDRESS
+    - POSTGRES_HOST
+    kind: string
+    value: localhost
+    label: Host
+    protected: false
+  - name: port
+    env_aliases:
+    - PG_PORT
+    - POSTGRES_PORT
+    kind: integer
+    value: 5502
+    label: Port
+    protected: false
+  - name: dbname
+    aliases:
+    - database
+    env_aliases:
+    - PG_DATABASE
+    - POSTGRES_DBNAME
+    kind: string
+    value: warehouse
+    label: Database Name
+    protected: false
+  - name: url
+    env_aliases:
+    - PG_URL
+    - POSTGRES_URL
+    kind: string
+    label: URL
+    description: Lets you set `user`, `password`, `host`, `port`, and `dbname` in
+      one go using a `postgresql://` URI. Takes precedence over the other settings
+      when set.
+    protected: false
+  - name: schema
+    env_aliases:
+    - PG_SCHEMA
+    - POSTGRES_SCHEMA
+    kind: string
+    value: $MELTANO_EXTRACT__LOAD_SCHEMA
+    label: Schema
+    protected: false
+transforms:
+- name: dbt-google-analytics
+  namespace: tap_google_analytics
+  hidden: false
+  label: Dbt Google Analytics
+  vars:
+    schema: '{{ env_var(''DBT_SOURCE_SCHEMA'') }}'
+  variant: meltano
+  repo: https://github.com/Matatika/dbt-tap-google-analytics
+  pip_url: https://github.com/Matatika/dbt-tap-google-analytics@v0.1.0
+- name: dbt-googleads
+  namespace: tap_googleads
+  hidden: false
+  label: Dbt Googleads
+  vars:
+    schema: '{{ env_var(''DBT_SOURCE_SCHEMA'') }}'
+  variant: meltano
+  repo: https://github.com/Matatika/dbt-tap-googleads
+  pip_url: https://github.com/Matatika/dbt-tap-googleads@v0.1.0
+- name: dbt-solarvista
+  namespace: tap_solarvista
+  hidden: false
+  label: Dbt Solarvista
+  vars:
+    schema: '{{ env_var(''DBT_SOURCE_SCHEMA'') }}'
+  variant: matatika
+  repo: https://github.com/Matatika/dbt-tap-solarvista
+  pip_url: https://github.com/Matatika/dbt-tap-solarvista@v0.1.0
+- name: dbt-tap-trello
+  namespace: tap_trello
+  hidden: false
+  label: Dbt Tap Trello
+  vars:
+    schema: '{{ env_var(''DBT_SOURCE_SCHEMA'') }}'
+  pip_url: git+https://github.com/mike-aboagye/dbt-tap-trello
+models:
+- name: model-google-analytics
+  namespace: tap_google_analytics
+  hidden: false
+  label: Model Google Analytics
+  variant: meltano
+  repo: https://gitlab.com/meltano/model-google-analytics
+  pip_url: git+https://gitlab.com/meltano/model-google-analytics.git
+transformers:
+- name: dbt
+  namespace: dbt
+  docs: https://meltano.com/docs/transforms.html
+  repo: https://github.com/dbt-labs/dbt-core
+  pip_url: dbt==0.20.2
+  settings:
+  - name: project_dir
+    value: $MELTANO_PROJECT_ROOT/transform
+  - name: profiles_dir
+    env: DBT_PROFILES_DIR
+    value: $MELTANO_PROJECT_ROOT/transform/profile
+  - name: target
+    value: $MELTANO_LOAD__DIALECT
+  - name: source_schema
+    value: $MELTANO_LOAD__TARGET_SCHEMA
+  - name: target_schema
+    value: analytics
+  - name: models
+    value: $MELTANO_TRANSFORM__PACKAGE_NAME $MELTANO_EXTRACTOR_NAMESPACE my_meltano_project
+  commands:
+    clean:
+      args: clean
+      description: Delete all folders in the clean-targets list (usually the dbt_modules
+        and target directories.)
+    compile:
+      args: compile --models $DBT_MODELS
+      description: Generates executable SQL from source model, test, and analysis
+        files. Compiled SQL files are written to the target/ directory.
+    deps:
+      args: deps
+      description: Pull the most recent version of the dependencies listed in packages.yml
+    run:
+      args: run --models $DBT_MODELS
+      description: Compile SQL and execute against the current target database.
+    seed:
+      args: seed
+      description: Load data from csv files into your data warehouse.
+    snapshot:
+      args: snapshot
+      description: Execute snapshots defined in your project.
+    test:
+      args: test
+      description: Runs tests on data in deployed models.
+files:
+- name: dbt
+  namespace: dbt
+  hidden: false
+  label: Dbt
+  update:
+    transform/profile/profiles.yml: 'true'
+  repo: https://github.com/Matatika/files-dbt
+  pip_url: git+https://github.com/Matatika/files-dbt@v0.20.x.0
+- name: analyze-google-analytics
+  namespace: tap_google_analytics
+  hidden: false
+  label: Analyze Google Analytics
+  update:
+    analyze/datasets: 'true'
+  repo: https://github.com/Matatika/analyze-google-analytics
+  pip_url: git+https://github.com/Matatika/analyze-google-analytics@v0.1.0
+- name: analyze-sit
+  namespace: tap_matatika_sit
+  hidden: false
+  label: Analyze Sit
+  update:
+    analyze/datasets/tap-matatika-sit/user-ages.yml: 'true'
+    analyze/datasets/tap-matatika-sit/user-genders.yml: 'true'
+  repo: https://github.com/Matatika/analyze-sit
+  pip_url: git+https://github.com/Matatika/analyze-sit.git
+- name: analyze-googleads
+  namespace: tap_googleads
+  hidden: false
+  label: Analyze Googleads
+  update:
+    analyze/datasets/tap-googleads: 'true'
+  repo: https://github.com/Matatika/analyze-googleads
+  pip_url: git+https://github.com/Matatika/analyze-googleads@v0.1.0
+- name: analyze-solarvista
+  namespace: tap_solarvista
+  hidden: false
+  label: Analyze Solarvista
+  update:
+    analyze/datasets: 'true'
+  repo: https://github.com/Matatika/analyze-solarvista
+  pip_url: git+https://github.com/Matatika/analyze-solarvista@v0.1.0
