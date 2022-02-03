@@ -1,2 +1,2 @@
 packages:
-- git: git+https://github.com/mike-aboagye/dbt-tap-trello
+- git: https://github.com/mike-aboagye/dbt-tap-trello
